@@ -33,20 +33,22 @@ button {
   background-color: var(--blue);
 }
 
-.element {
-  display: block;
+.block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 2.5rem;
   width: 140px;
-  height: 140px;
+  height: 130px;
   background-color: var(--lightblack);
-  /* border: blue 2px solid; */
   transition: background-color 0.3s ease-in;
 }
 
-.element:hover {
+.block:hover {
   background-color: rgb(34, 12, 83);
 }
 
-.game-board {
+.container section {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
 }
