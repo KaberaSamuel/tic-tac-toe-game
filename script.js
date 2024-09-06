@@ -1,11 +1,12 @@
-const main = document.querySelector("main");
 const resetbtn = document.querySelector("button");
-const dialog = document.querySelector("dialog");
-const body = document.querySelector("body");
-const closebtn = document.querySelector("#close");
-const squares = document.querySelectorAll(".block");
 
 const gameFlow = (function () {
+  const closebtn = document.querySelector("#close");
+  const main = document.querySelector("main");
+  const dialog = document.querySelector("dialog");
+  const body = document.querySelector("body");
+  const squares = document.querySelectorAll(".block");
+  const playerDomtitles = document.querySelectorAll("h2");
   let player1;
   let player2;
   const players = [];
@@ -30,9 +31,11 @@ const gameFlow = (function () {
 
   squares.forEach((block) => {
     block.addEventListener("click", () => {
+      playerDomtitles[currentIndex].classList.remove("active");
       players[currentIndex].draw(block);
       judgePerMove(players[currentIndex]);
       currentIndex = currentIndex === 0 ? 1 : 0;
+      playerDomtitles[currentIndex].classList.add("active");
     });
   });
 
@@ -74,6 +77,8 @@ const gameFlow = (function () {
     playing = true;
     currentIndex = 0;
     main.style.cssText = "pointer-events: all";
+    playerDomtitles[0].classList.add("active");
+    playerDomtitles[1].classList.remove("active");
   }
 
   function handleDialog() {
@@ -89,10 +94,11 @@ const gameFlow = (function () {
     dialog.classList.add("show");
   }
 
+  closebtn.addEventListener("click", () => {
+    dialog.classList.remove("show");
+  });
+
   return { reset };
 })();
 
 resetbtn.addEventListener("click", gameFlow.reset);
-closebtn.addEventListener("click", () => {
-  dialog.classList.remove("show");
-});
