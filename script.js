@@ -3,6 +3,17 @@ const main = document.querySelector("main");
 const resetbtn = document.querySelector("button");
 const dialog = document.querySelector("dialog");
 const body = document.querySelector("body");
+const closebtn = document.querySelector("#close");
+let player1;
+let player2;
+
+const gameFlow = {
+  playing: true,
+  drawingBlocks: document.querySelectorAll(".block"),
+  currentPlayerIndex: 0,
+  winner: "None",
+  judgePerMove,
+};
 
 function player(name, char) {
   return {
@@ -15,24 +26,15 @@ function player(name, char) {
   };
 }
 
-const gameFlow = {
-  playing: true,
-  drawingBlocks: document.querySelectorAll(".block"),
-  currentPlayerIndex: 0,
-  winner: "None",
-  judgePerMove,
-};
-
-const player1 = player("Player_X", "✖️");
-const player2 = player("Player_O", "⭕");
+player1 = player("Player_X", "✖️");
+player2 = player("Player_O", "⭕");
 gameboard.push(player1, player2, gameFlow);
 
 gameFlow.drawingBlocks.forEach((block) => {
   block.addEventListener("click", () => {
     gameboard[gameFlow.currentPlayerIndex].draw(block);
     judgePerMove(gameboard[gameFlow.currentPlayerIndex]);
-    gameboard[gameFlow.currentPlayerIndex] =
-      gameboard[gameFlow.currentPlayerIndex] === player1 ? player2 : player1;
+    gameFlow.currentPlayerIndex = gameFlow.currentPlayerIndex === 0 ? 1 : 0;
   });
 });
 
@@ -55,10 +57,11 @@ function judgePerMove(player) {
   ) {
     gameFlow.playing = false;
     gameFlow.winner = gameboard[gameFlow.currentPlayerIndex];
-    handleDialog("show winner");
+    handleDialog();
   } else if (!array.includes("")) {
     gameFlow.playing = false;
-    handleDialog("show a tie");
+    gameFlow.winner = "none";
+    handleDialog();
   }
 
   main.style.cssText = gameFlow.playing
@@ -71,19 +74,17 @@ function reset() {
     book.textContent = "";
   });
   gameFlow.playing = true;
-  gameboard[gameFlow.currentPlayerIndex] = player1;
-  judgePerMove(gameboard[gameFlow.currentPlayerIndex]);
+  gameFlow.currentPlayerIndex = 0;
+  main.style.cssText = "pointer-events: all";
 }
 
-function handleDialog(message) {
+function handleDialog() {
   dialog.classList.add("show");
-  if (message === "show winner") {
-    dialog.children[1].textContent = `${gameFlow.winner.name} wins`;
-    dialog.children[2].textContent = `🎉🎉🎉`;
-  } else if (message === "show a tie") {
-    dialog.children[1].textContent = "It's a tie";
-    dialog.children[2].textContent = "🤝🤝🤝";
-  }
+  const winning = gameFlow.winner === "none" ? false : true;
+  dialog.children[1].textContent = winning
+    ? `${gameFlow.winner.name} wins`
+    : "It's a tie";
+  dialog.children[2].textContent = winning ? "🎉🎉🎉" : "🤝🤝🤝";
 }
 
 function showModal() {
@@ -92,7 +93,6 @@ function showModal() {
 
 resetbtn.addEventListener("click", reset);
 
-const closebtn = document.querySelector("#close");
 closebtn.addEventListener("click", () => {
   dialog.classList.remove("show");
 });
