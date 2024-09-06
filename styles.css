@@ -5,14 +5,14 @@
 }
 
 :root {
-  --blue: rgb(50, 17, 120);
+  --blue: rgb(41, 15, 97);
   --lightblack: rgb(10, 10, 10);
 }
 
 body {
   /* min-height: 100vh; */
   background-color: var(--lightblack);
-  color: white;
+  color: rgb(218, 218, 218);
   font-family: Arial, Helvetica, sans-serif;
   padding: 60px 0 0;
   font-size: 1.3rem;
@@ -25,12 +25,13 @@ h1 {
 }
 
 button {
-  padding: 15px 20px;
+  padding: 15px 30px;
   border: none;
   border-radius: 10px;
-  font-size: inherit;
-  color: white;
+  font-size: 1.5rem;
+  color: inherit;
   background-color: var(--blue);
+  color: white;
 }
 
 .block {
@@ -45,7 +46,7 @@ button {
 }
 
 .block:hover {
-  background-color: rgb(34, 12, 83);
+  background-color: rgb(23, 8, 56);
 }
 
 .container section {
@@ -74,4 +75,48 @@ footer {
   margin: 30px 0 0;
   padding: 30px;
   font-weight: 600;
+}
+
+dialog {
+  width: 400px;
+  height: 300px;
+  border-radius: 20px;
+  position: fixed;
+  top: 0;
+  left: calc((100vw - 400px) / 2);
+  align-self: center;
+  overflow: hidden;
+  color: var(--blue);
+  font-size: 2rem;
+  font-weight: 700;
+  transition: all 1s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+dialog.show {
+  transform: translateY(calc((100vh - 300px) / 2));
+  opacity: 1;
+  pointer-events: all;
+}
+
+dialog:active {
+  top: 20px;
+}
+
+dialog div {
+  text-align: end;
+}
+
+dialog i {
+  padding: 10px 15px;
+}
+
+dialog i:hover {
+  color: white;
+  background-color: var(--blue);
+}
+
+dialog p:nth-child(2) {
+  margin: 60px auto 10px;
 }

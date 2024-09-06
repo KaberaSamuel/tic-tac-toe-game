@@ -1,6 +1,8 @@
 const gameboard = [];
 const main = document.querySelector("main");
 const resetbtn = document.querySelector("button");
+const dialog = document.querySelector("dialog");
+const body = document.querySelector("body");
 
 function player(name, char) {
   return {
@@ -21,8 +23,8 @@ const gameFlow = {
   judgePerMove,
 };
 
-const player1 = player("player_X", "✖️");
-const player2 = player("player_O", "⭕");
+const player1 = player("Player_X", "✖️");
+const player2 = player("Player_O", "⭕");
 gameboard.push(player1, player2, gameFlow);
 
 gameFlow.drawingBlocks.forEach((block) => {
@@ -53,22 +55,44 @@ function judgePerMove(player) {
   ) {
     gameFlow.playing = false;
     gameFlow.winner = gameboard[gameFlow.currentPlayerIndex];
-    console.log(gameFlow.winner.name);
+    handleDialog("show winner");
   } else if (!array.includes("")) {
     gameFlow.playing = false;
-    console.log("It's a tie");
+    handleDialog("show a tie");
   }
 
   main.style.cssText = gameFlow.playing
-    ? "pointer-events: all;"
+    ? "pointer-events: all"
     : "pointer-events: none";
 }
 
-resetbtn.addEventListener("click", () => {
+function reset() {
   gameFlow.drawingBlocks.forEach((book) => {
     book.textContent = "";
   });
   gameFlow.playing = true;
   gameboard[gameFlow.currentPlayerIndex] = player1;
   judgePerMove(gameboard[gameFlow.currentPlayerIndex]);
+}
+
+function handleDialog(message) {
+  dialog.classList.add("show");
+  if (message === "show winner") {
+    dialog.children[1].textContent = `${gameFlow.winner.name} wins`;
+    dialog.children[2].textContent = `🎉🎉🎉`;
+  } else if (message === "show a tie") {
+    dialog.children[1].textContent = "It's a tie";
+    dialog.children[2].textContent = "🤝🤝🤝";
+  }
+}
+
+function showModal() {
+  dialog.classList.add("show");
+}
+
+resetbtn.addEventListener("click", reset);
+
+const closebtn = document.querySelector("#close");
+closebtn.addEventListener("click", () => {
+  dialog.classList.remove("show");
 });
