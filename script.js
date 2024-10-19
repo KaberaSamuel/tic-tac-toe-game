@@ -4,6 +4,7 @@ const resetbtn = document.querySelector("button");
 const dialog = document.querySelector("dialog");
 const body = document.querySelector("body");
 
+//function for creating object instance for each player
 function player(name, char) {
   return {
     name,
@@ -15,6 +16,7 @@ function player(name, char) {
   };
 }
 
+// object for manupulating game logic and flow
 const gameFlow = {
   playing: true,
   drawingBlocks: document.querySelectorAll(".block"),
@@ -36,6 +38,7 @@ gameFlow.drawingBlocks.forEach((block) => {
   });
 });
 
+// function that will called after every move to make game variables and decide which function to call
 function judgePerMove(player) {
   const array = [];
   gameFlow.drawingBlocks.forEach((block) => {
